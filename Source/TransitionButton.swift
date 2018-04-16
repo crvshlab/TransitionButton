@@ -63,7 +63,6 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
     private let springGoEase:CAMediaTimingFunction  = CAMediaTimingFunction(controlPoints: 0.45, -0.36, 0.44, 0.92)
     private let shrinkCurve:CAMediaTimingFunction   = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
     private let expandCurve:CAMediaTimingFunction   = CAMediaTimingFunction(controlPoints: 0.95, 0.02, 1, 0.05)
-    private let shrinkDuration: CFTimeInterval      = 0.1
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -95,12 +94,7 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         
         self.setTitle("",  for: .normal)                    // place an empty string as title to display a spiner
         self.setImage(nil, for: .normal)                    // remove the image, if any, before displaying the spinner
-        
-        UIView.animate(withDuration: 0.1, animations: { () -> Void in
-            self.layer.cornerRadius = self.frame.height / 2 // corner radius should be half the height to have a circle corners
-        }, completion: { completed -> Void in
-            self.spiner.animation() // animate spinner
-        })
+        self.spiner.animation()
     }
     
     /**
