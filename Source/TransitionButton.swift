@@ -99,7 +99,6 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         UIView.animate(withDuration: 0.1, animations: { () -> Void in
             self.layer.cornerRadius = self.frame.height / 2 // corner radius should be half the height to have a circle corners
         }, completion: { completed -> Void in
-            self.shrink()   // reduce the width to be equal to the height in order to have a circle
             self.spiner.animation() // animate spinner
         })
     }
@@ -153,35 +152,11 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
     }
     
     private func setOriginalState() {
-        self.animateToOriginalWidth()
         self.spiner.stopAnimation()
         self.setTitle(self.cachedTitle, for: .normal)
         self.setImage(self.cachedImage, for: .normal)
         self.isUserInteractionEnabled = true // enable again the user interaction
         self.layer.cornerRadius = self.cornerRadius
-    }
- 
-    private func animateToOriginalWidth() {
-        let shrinkAnim = CABasicAnimation(keyPath: "bounds.size.width")
-        shrinkAnim.fromValue = (self.bounds.height)
-        shrinkAnim.toValue = (self.bounds.width)
-        shrinkAnim.duration = shrinkDuration
-        shrinkAnim.timingFunction = shrinkCurve
-        shrinkAnim.fillMode = kCAFillModeForwards
-        shrinkAnim.isRemovedOnCompletion = false
-        self.layer.add(shrinkAnim, forKey: shrinkAnim.keyPath)
-    }
-    
-    private func shrink() {
-        let shrinkAnim                   = CABasicAnimation(keyPath: "bounds.size.width")
-        shrinkAnim.fromValue             = frame.width
-        shrinkAnim.toValue               = frame.height
-        shrinkAnim.duration              = shrinkDuration
-        shrinkAnim.timingFunction        = shrinkCurve
-        shrinkAnim.fillMode              = kCAFillModeForwards
-        shrinkAnim.isRemovedOnCompletion = false
-        
-        layer.add(shrinkAnim, forKey: shrinkAnim.keyPath)
     }
     
     private func expand(completion:(()->Void)?, revertDelay: TimeInterval) {
